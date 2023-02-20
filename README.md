@@ -2,7 +2,7 @@
 
 **Abstract:** Place hoder.
 
-![BSP](FlowChart.png)
+![BSP](flowchart.png)
 
 ### Requirements
 * Python 3.7
