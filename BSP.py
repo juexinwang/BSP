@@ -34,7 +34,7 @@ parser.add_argument('--useDirTag', action='store_true', default=False, help='Use
 
 # Normalization
 parser.add_argument('--normalize', type=str, default='minmax',  help='scale (default: %(default)s)')
-parser.add_argument('--inputCellTag', action='store_true', default=False,  help='Whether input file has cell column (default: %(default)s)')
+parser.add_argument('--noinputCellTag', action='store_true', default=False,  help='Whether input file has no cell column (default: %(default)s)')
 parser.add_argument('--notransTag', action='store_true', default=False,  help='Whether input file has transposed (default: %(default)s)')
 parser.add_argument('--logTransform', action='store_true', default=False,  help='Whether logtransform (default: %(default)s)')
 
@@ -52,7 +52,7 @@ parser.add_argument('--isolated', action='store_true', default=False, help='Defa
 parser.add_argument('--noScaling', action='store_true', default=False, help='Default: scaling')
 
 # debug
-parser.add_argument('--debug', action='store_true', default=False, help='Output debug info in mem usage and computation time')
+parser.add_argument('--memory', action='store_true', default=False, help='Output perform info in mem usage')
 parser.add_argument('--debugperform', action='store_true', default=False, help='Output perform info in mem usage and computation time')
 
 args = parser.parse_args()
@@ -66,10 +66,10 @@ def check_param():
 
 def debuginfoStr(info):
     '''
-    For debug usage, output memory and computational time
+    Default: output memory and computational time
     '''
-    if args.debug:
-        print('---'+str(datetime.timedelta(seconds=int(time.time()-start_time)))+'---'+info)
+    print('---'+str(datetime.timedelta(seconds=int(time.time()-start_time)))+'---'+info)
+    if args.memory:
         mem = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss
         print('Mem consumption: '+str(mem))
 
@@ -86,8 +86,8 @@ def checkNullGenes(expMatrix):
     '''
     Add Null genes if the input gene number is so small, especially for low-throughput techs as FISH
     '''
-    print(args.noExtraNullGenes)
-    print(args.extraNullGeneNumberThres)
+    # print(args.noExtraNullGenes)
+    # print(args.extraNullGeneNumberThres)
     addNullNum = 0
     if not args.noExtraNullGenes:
         if expMatrix.shape[0] < args.extraNullGeneNumberThres:
@@ -199,13 +199,13 @@ def granp(spatialMatrix, expMatrix, D1 = 1.0, D2 = 2.5 ):
         np.where(T_matrix_sum==0,T_matrix_sum+0.0001*np.random.rand(),T_matrix_sum)
  
     debuginfoStr('Start calculate p-value')
-    print(np.max(T_matrix_sum))
-    print(np.min(T_matrix_sum))
+    # print(np.max(T_matrix_sum))
+    # print(np.min(T_matrix_sum))
     # calculate p-values
     T_matrix_sum_upper90 = np.quantile(T_matrix_sum, 0.90)
     T_matrix_sum_mid = [i for i in T_matrix_sum if i < T_matrix_sum_upper90]
-    print(np.max(T_matrix_sum_mid))
-    print(np.min(T_matrix_sum_mid))
+    # print(np.max(T_matrix_sum_mid))
+    # print(np.min(T_matrix_sum_mid))
     debuginfoStr('Start beta fit')
     BetaPar = stats.beta.fit(T_matrix_sum_mid, floc=0, fscale=1)
     a0 = BetaPar[0]
@@ -239,10 +239,11 @@ if __name__ == "__main__":
             spatialMatrix = spatialMatrix[['x','y','z']]
             spatialMatrix = spatialMatrix.to_numpy() #For MOB: (262,2)
 
-            if args.inputCellTag:
-                expMatrix = pd.read_csv(expFile,index_col=0)
+            if args.noinputCellTag:
+                expMatrix = pd.read_csv(expFile)    
             else:
-                expMatrix = pd.read_csv(expFile)
+                expMatrix = pd.read_csv(expFile,index_col=0)
+                
             
             print('Input dim: '+str(expMatrix.shape))
             # drop genes with all zeros
@@ -268,7 +269,7 @@ if __name__ == "__main__":
                 scalFactor = gmean(np.max(spatialMatrix,axis=0)-np.min(spatialMatrix,axis=0))/(spatialMatrix.shape[0])**(1/3)
                 D1 = args.D1*scalFactor
                 D2 = args.D2*scalFactor
-                print(str(D1)+"\t"+str(D2))
+                print("Scaled small patch radius:"+str(D1)+"\tScaled big patch radius:"+str(D2))
 
             alg_time = time.time()
             #============================ calculate granularity ==========================#
@@ -318,7 +319,7 @@ if __name__ == "__main__":
                     scalFactor = gmean(np.max(spatialMatrix,axis=0)-np.min(spatialMatrix,axis=0))/(spatialMatrix.shape[0])**(1/3)
                     D1 = args.D1*scalFactor
                     D2 = args.D2*scalFactor
-                    print(str(D1)+"\t"+str(D2))
+                    print("Scaled small patch radius:"+str(D1)+"\tScaled big patch radius:"+str(D2))
 
                 #============================ calculate granularity ==========================#
                 P_values = granp(spatialMatrix, expMatrix, D1 = D1, D2 = D2)
@@ -363,17 +364,17 @@ if __name__ == "__main__":
                 spatialMatrix = spatialMatrix[['x','y']]
                 spatialMatrix = spatialMatrix.to_numpy()
 
-                if args.inputCellTag:
-                    expMatrix = pd.read_csv(expFile,index_col=0)
+                if args.noinputCellTag:
+                    expMatrix = pd.read_csv(expFile)    
                 else:
-                    expMatrix = pd.read_csv(expFile)
+                    expMatrix = pd.read_csv(expFile,index_col=0)    
                 
                 if not args.notransTag:
                     # drop genes with all zeros
                     expMatrix = expMatrix.loc[:, expMatrix.any()]
                     expMatrix = expMatrix.transpose()
             
-            print(expMatrix.shape) #(Genes,locus) (12602,262) for MOB
+            print('Input dim:'+str(expMatrix.shape)) #(Genes,locus) (12602,262) for MOB
 
             # filtering
             mat = expMatrix.to_numpy()
@@ -383,7 +384,7 @@ if __name__ == "__main__":
 
             geneIndex = expMatrix.index
             expMatrix = expMatrix.to_numpy()
-            print(expMatrix.shape) #(Genes,locus) (12602,262) for MOB
+            print('Input dim after filter: '+str(expMatrix.shape)) #(Genes,locus) (12602,262) for MOB
 
             # for data with very few genes, add null genes from permutations
             expMatrix, addNullNum=checkNullGenes(expMatrix)
@@ -397,7 +398,7 @@ if __name__ == "__main__":
                 scalFactor = gmean(np.max(spatialMatrix,axis=0)-np.min(spatialMatrix,axis=0))/np.sqrt(spatialMatrix.shape[0])
                 D1 = args.D1*scalFactor
                 D2 = args.D2*scalFactor
-                print(str(D1)+"\t"+str(D2))
+                print("Scaled small patch radius:"+str(D1)+"\tScaled big patch radius:"+str(D2))
 
             alg_time = time.time()
             #============================ calculate granularity ==========================#
@@ -406,14 +407,14 @@ if __name__ == "__main__":
                 
             if not args.nullDebug:
                 if addNullNum !=0 :
-                    print(len(P_values))
+                    # print(len(P_values))
                     # 1000* null genes
                     if args.ManyNullGenes:
                         P_values=P_values[:-addNullNum]
                     # 1000 null genes
                     else:
                         P_values=P_values[:-1000]
-                    print(len(P_values))
+                    # print(len(P_values))
 
             #================================= generate outputs ==========================#
             debuginfoStr('Post processing')
@@ -451,7 +452,7 @@ if __name__ == "__main__":
                     scalFactor = gmean(np.max(spatialMatrix,axis=0)-np.min(spatialMatrix,axis=0))/np.sqrt(spatialMatrix.shape[0])
                     D1 = args.D1*scalFactor
                     D2 = args.D2*scalFactor
-                    print(str(D1)+"\t"+str(D2))
+                    print("Scaled small patch radius:"+str(D1)+"\tScaled big patch radius:"+str(D2))
 
                 #============================ calculate granularity ==========================#
                 P_values = granp(spatialMatrix, expMatrix, D1 = D1, D2 = D2)
