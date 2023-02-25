@@ -93,7 +93,7 @@ def checkNullGenes(expMatrix):
         if expMatrix.shape[0] < args.extraNullGeneNumberThres:
             print('Add 1000* null genes')
             nullMatrix = expMatrix.copy()
-            print(nullMatrix.shape)            
+            # print(nullMatrix.shape)            
             # Option 1: (Not used) 1000 null genes
             if not args.ManyNullGenes:
                 nullMatrix = np.tile(nullMatrix,(1 + (1000 // nullMatrix.shape[0]), 1))[:1000, :] 
@@ -101,12 +101,12 @@ def checkNullGenes(expMatrix):
             else:
                 nullMatrix = np.repeat(nullMatrix,args.nullGeneNumber,axis=0)
             addNullNum = nullMatrix.shape[0]
-            print(nullMatrix.shape)
-            print('Start Permutation')
+            # print(nullMatrix.shape)
+            # print('Start Permutation')
             for i in range(len(nullMatrix)):
                 nullMatrix[i] = np.random.permutation(nullMatrix[i])                    
             expMatrix = np.concatenate((expMatrix,nullMatrix),axis=0)
-            print(expMatrix.shape)
+            # print(expMatrix.shape)
             # expMatrix: (originalGeneNumber+1000,locNumber)
     return expMatrix,addNullNum
 
@@ -243,8 +243,7 @@ if __name__ == "__main__":
                 expMatrix = pd.read_csv(expFile)    
             else:
                 expMatrix = pd.read_csv(expFile,index_col=0)
-                
-            
+                            
             print('Input dim: '+str(expMatrix.shape))
             # drop genes with all zeros
             expMatrix = expMatrix.loc[~expMatrix.apply(lambda row: (row==0.0).all(), axis=1)]
@@ -300,9 +299,15 @@ if __name__ == "__main__":
             files = glob.glob(path+"*.csv")
             for filename in files:
                 InputData =  pd.read_csv(filename)
+                debuginfoStr('Loading data and preprocessing:'+filename)
                 spatialMatrix = InputData[['x','y','z']]
                 spatialMatrix = spatialMatrix.to_numpy()
                 expMatrix = InputData.drop(['x','y','z'],  axis = 1)
+                print('Input dim: '+str(expMatrix.shape))
+                # drop genes with all zeros
+                expMatrix = expMatrix.loc[~expMatrix.apply(lambda row: (row==0.0).all(), axis=1)]
+                # expMatrix = expMatrix.loc[:, expMatrix.any()]
+                print('Nonzero dim: '+str(expMatrix.shape))
                 expMatrix = expMatrix.transpose()
                 geneIndex = expMatrix.index
                 expMatrix = expMatrix.to_numpy()
@@ -334,13 +339,15 @@ if __name__ == "__main__":
                             P_values=P_values[:-1000]
 
                 #================================= generate outputs ==========================#
+                debuginfoStr('Post processing')
                 if args.nullDebug:
                     outputData = pd.DataFrame(P_values, columns = ["p_values"])
                 else:
                     outputData = pd.DataFrame(P_values, 
                                         columns = ["p_values"],
                                         index = geneIndex)
-                outputData.to_csv(args.outputDir+filename.split('/')[-1])
+                outputData.to_csv(args.outputDir+filename.split('/')[-1].split('.csv')[0]+'_P_values.csv')
+            debuginfoStr('BSP Finished')
 
     # 2D
     else:
@@ -473,4 +480,4 @@ if __name__ == "__main__":
                     outputData = pd.DataFrame(P_values, 
                                             columns = ["p_values"],
                                             index = geneIndex)
-                outputData.to_csv(args.outputDir+filename.split('/')[-1])
+                outputData.to_csv(args.outputDir+filename.split('/')[-1].split('.csv')[0]+'_P_values.csv')
