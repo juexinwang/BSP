@@ -1,4 +1,4 @@
-# Generate Figure 4A
+# Generate Figure 3A
 library(plotly)
 library(scales)
 setwd("D:\\PhD\\Lab\\Project_3_SVG\\Figures\\")
@@ -74,10 +74,10 @@ for(Pattern_index in 1:3){
   Fig <- plot_ly() %>% 
     add_trace(data = Input_Data_Plot, 
               x = ~x, y = ~y, z = ~z, 
-              marker = list(size = 3),
+              marker = list(size = 5),
               mode = "markers", 
               type = "scatter3d", 
-              opacity = 0.3,
+              opacity = 0.6,
               color = ~SVG_1, 
               colors = my_palette) %>%
     add_trace(
@@ -85,7 +85,7 @@ for(Pattern_index in 1:3){
       x = ~x,
       y = ~y,
       z = ~z, 
-      marker = list(size = 3),
+      marker = list(size = 5),
       mode = "markers", 
       type = "scatter3d", 
       opacity = 1.0,

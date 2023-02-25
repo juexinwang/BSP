@@ -11,7 +11,7 @@
 
 ### Quick Start
 
-Place your spatial transcriptomic data as a new folder in data/ folder. We have MOB for the tutorial usage.
+Place your spatial transcriptomic data as a new folder in data/ folder. We have MOB (ST mouse olfactory) for the tutorial usage.
 
 ```
 python BSP.py
