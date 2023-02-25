@@ -6,6 +6,7 @@ Big-small patch is a granularity-guided, data-driven, and parameter-free model f
 
 ### Requirements
 * Python 3.7+
+* scikit-learn
 * numpy
 * pandas
 
