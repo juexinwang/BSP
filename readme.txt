@@ -29,7 +29,7 @@ python BSP.py --inputDir data/3Dsim/  --for3DTag --useDirTag --logTransform --nu
 ```
 This step will load all location and expression combined files under data/3Dsim/ folder, and generate Pattern_1_P_values.csv in the project folder, where each row corresponds to each gene, each gene name with the inferred pvalue.
 
-Both 2D and 3D examples should be finished in several seconds. On a MacOS with Monterey version 12.4, example 1 takes 4 seconds, example 2 takes 2 seconds.
+Both 2D and 3D examples should be finished in several seconds. On a MacOS M1 Pro Ventura 13.2.1, example 1 takes ~1 seconds, example 2 takes less than 1 seconds.
 
 4. Instructions for use
 To use the BSP, users need to prepare spatial transcriptomics within one of the two support data formats:
