@@ -1,4 +1,5 @@
-# Generate Supplementary Figure 4, Supplementary Figure 5, Supplementary Figure 6
+# Generate Supplementary Figure 12, Supplementary Figure 13, Supplementary Figure 14
+
 setwd("D:\\PhD\\Lab\\Project_3_SVG\\Figures\\")
 
 library(ggplot2)

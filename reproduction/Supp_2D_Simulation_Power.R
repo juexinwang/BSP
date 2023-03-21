@@ -1,4 +1,5 @@
-# Generate Supplemenatry Figure 1 and Supplemenatry Figure 2
+## Generate Supplemenatry Figure 1 and Supplemenatry Figure 2
+
 setwd("D:\\PhD\\Lab\\Project_3_SVG\\Figures\\")
 
 library(ggplot2)

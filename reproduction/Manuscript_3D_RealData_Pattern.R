@@ -1,7 +1,8 @@
-# Genreate Figure 5
+## Generate Figure 5
+
 library(plot3D)
 library(plotly)
-setwd("D:\\PhD\\Lab\\Project_3_SVG\\Figures\\")
+setwd("../")
 InputFile <- ".\\Data\\Manuscript_3D_RealData_Pattern\\"
 
 
@@ -23,15 +24,15 @@ Createcolorbar <- function(InputValues){
 }
 
 # 3d real data 1
-my_palette1 <- Createcolorbar(InputData[,"SPAG9"])
-Fig1 <- plot_ly() %>% 
-  add_trace(data = InputData, 
-            x = ~X, y = ~Y, z = ~Z, 
+my_palette1 <- Createcolorbar(InputData[,"MAN1A2"])
+Fig1 <- plot_ly() %>%
+  add_trace(data = InputData,
+            x = ~X, y = ~Y, z = ~Z,
             marker = list(size = 5),
-            mode = "markers", 
+            mode = "markers",
             opacity = 0.8,
-            type = "scatter3d", 
-            color = ~SPAG9, 
+            type = "scatter3d",
+            color = ~MAN1A2,
             colors = my_palette1) %>%
   layout(showlegend = FALSE,
          margin = list(
@@ -46,7 +47,7 @@ Fig1 <- plot_ly() %>%
                       aspectratio = list(x = 1, y = 1, z = 1.5),
                       xaxis = list(autotick = TRUE, ticks = '', showticklabels = FALSE),
                       yaxis = list(autotick = TRUE, ticks = '', showticklabels = FALSE),
-                      zaxis = list(autotick = TRUE, ticks = '', showticklabels = FALSE)) ) %>% 
+                      zaxis = list(autotick = TRUE, ticks = '', showticklabels = FALSE)) ) %>%
   hide_colorbar()
 
 htmlwidgets::saveWidget(as_widget(Fig1), ".\\Outputs\\Manuscript_3D_RealData_1.html")
@@ -54,14 +55,14 @@ htmlwidgets::saveWidget(as_widget(Fig1), ".\\Outputs\\Manuscript_3D_RealData_1.h
 
 # 3d real data 2
 my_palette2 <- Createcolorbar(InputData[,"SEMA4D"])
-Fig2 <- plot_ly() %>% 
-  add_trace(data = InputData, 
-            x = ~X, y = ~Y, z = ~Z, 
+Fig2 <- plot_ly() %>%
+  add_trace(data = InputData,
+            x = ~X, y = ~Y, z = ~Z,
             marker = list(size = 5),
-            mode = "markers", 
+            mode = "markers",
             opacity = 0.8,
-            type = "scatter3d", 
-            color = ~SEMA4D, 
+            type = "scatter3d",
+            color = ~SEMA4D,
             colors = my_palette2) %>%
   layout(showlegend = FALSE,
          margin = list(
@@ -76,22 +77,22 @@ Fig2 <- plot_ly() %>%
                       aspectratio = list(x = 1, y = 1, z = 1.5),
                       xaxis = list(autotick = TRUE, ticks = '', showticklabels = FALSE),
                       yaxis = list(autotick = TRUE, ticks = '', showticklabels = FALSE),
-                      zaxis = list(autotick = TRUE, ticks = '', showticklabels = FALSE)) ) %>% 
+                      zaxis = list(autotick = TRUE, ticks = '', showticklabels = FALSE)) ) %>%
   hide_colorbar()
 
-htmlwidgets::saveWidget(as_widget(Fig2), ".\\Outputs\\Manuscript_3D_RealData_2.html")
+htmlwidgets::saveWidget(as_widget(Fig2), ".\\Output\\Manuscript_3D_RealData_2.html")
 
 
 # 3d real data 3
 my_palette3 <- Createcolorbar(InputData[,"RAC2"])
-Fig3 <- plot_ly() %>% 
-  add_trace(data = InputData, 
-            x = ~X, y = ~Y, z = ~Z, 
+Fig3 <- plot_ly() %>%
+  add_trace(data = InputData,
+            x = ~X, y = ~Y, z = ~Z,
             marker = list(size = 5),
-            mode = "markers", 
+            mode = "markers",
             opacity = 0.8,
-            type = "scatter3d", 
-            color = ~RAC2, 
+            type = "scatter3d",
+            color = ~RAC2,
             colors = my_palette3) %>%
   layout(showlegend = FALSE,
          margin = list(
@@ -106,7 +107,7 @@ Fig3 <- plot_ly() %>%
                       aspectratio = list(x = 1, y = 1, z = 1.5),
                       xaxis = list(autotick = TRUE, ticks = '', showticklabels = FALSE),
                       yaxis = list(autotick = TRUE, ticks = '', showticklabels = FALSE),
-                      zaxis = list(autotick = TRUE, ticks = '', showticklabels = FALSE)) ) %>% 
+                      zaxis = list(autotick = TRUE, ticks = '', showticklabels = FALSE)) ) %>%
   hide_colorbar()
 
-htmlwidgets::saveWidget(as_widget(Fig3), ".\\Outputs\\Manuscript_3D_RealData_3.html")
+htmlwidgets::saveWidget(as_widget(Fig3), ".\\Output\\Manuscript_3D_RealData_3.html")
