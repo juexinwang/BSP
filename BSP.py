@@ -1,6 +1,6 @@
 import numpy as np
 import pandas as pd
-import sys, time, resource, datetime
+import sys, time, datetime
 from scipy import stats
 from scipy.spatial import distance
 from sklearn.preprocessing import minmax_scale
@@ -70,8 +70,13 @@ def debuginfoStr(info):
     '''
     print('---'+str(datetime.timedelta(seconds=int(time.time()-start_time)))+'---'+info)
     if args.memory:
-        mem = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss
-        print('Mem consumption: '+str(mem))
+        if sys.platform == "linux" or sys.platform == "linux2" or sys.platform == "darwin":
+        # linux or OSX
+            import resource
+            mem = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss
+            print('Mem consumption: '+str(mem))
+        else:
+            print('Non-linux system does not support memory consumption statistics')
 
 def debugperformStr():
     '''
@@ -79,8 +84,13 @@ def debugperformStr():
     '''
     if args.debugperform:
         print('Running time: '+str(time.time()-alg_time))
-        mem = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss
-        print('Mem consumption: '+str(mem)) 
+        if sys.platform == "linux" or sys.platform == "linux2" or sys.platform == "darwin":
+        # linux or OSX
+            import resource
+            mem = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss
+            print('Mem consumption: '+str(mem))
+        else:
+            print('Non-linux system does not support memory consumption statistics') 
 
 def checkNullGenes(expMatrix):
     '''
