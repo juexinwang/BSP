@@ -11,10 +11,10 @@ import argparse
 parser = argparse.ArgumentParser(description='Detecting Spatial Variable Gene using Big-Small Patch algorithm')
 # Input and output
 parser.add_argument('--datasetName', type=str, default='MOB', help='dataset: subfolder under data/. MOB as the example')
-parser.add_argument('--inputDir', type=str, default='data/', help='Directory of input: default(/Users/wangjue/workspace/BSP/)')
+parser.add_argument('--inputDir', type=str, default='data/', help='Directory of input: default(data/)')
 parser.add_argument('--spaLocFilename', type=str, default='Rep11_MOB_spa.csv', help='spatial location inputfile: default(%(default)s). Format: Loc*(x,y) with header')
 parser.add_argument('--expFilename', type=str, default='Rep11_MOB_count.csv', help='expression inputfile: default(%(default)s). Format: Loc*Gene with header')
-parser.add_argument('--outputDir', type=str, default='./', help='Directory of output: default(/Users/wangjue/workspace/BSP/)')
+parser.add_argument('--outputDir', type=str, default='./', help='Directory of output: default(./)')
 parser.add_argument('--outputFilename', type=str, default='P_values.csv', help='Filename of output: default(%(default)s)')
 
 # Parameters

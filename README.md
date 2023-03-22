@@ -11,7 +11,7 @@ Big-small patch is a granularity-guided, data-driven, and parameter-free model f
 * pandas
 
 ### Installation
-Installation Tested on Ubuntu 16.04, CentOS 7, MacOS Monterey version 12.4, and MacOS M1 Pro Ventura 13.2.1.
+Tested on Windows 10, Ubuntu 16.04, CentOS 7, MacOS Monterey version 12.4, and MacOS M1 Pro Ventura 13.2.1.
 
 ### Quick Start
 
