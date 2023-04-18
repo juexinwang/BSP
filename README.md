@@ -48,6 +48,8 @@ The folder reproduction includes all the codes generating results in the manuscr
 All the data can be downloaded from the original publiations
 
 ### Cite
+**Dimension-agnostic and granularity-based spatially variable gene identification.**
+Wang, Juexin, Jinpu Li, Skyler T. Kramer, Li Su, Yuzhou Chang, Chunhui Xu, Qin Ma, and Dong Xu.  bioRxiv (2023): 2023-03.
 
 
 ### Reference
