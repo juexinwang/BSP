@@ -1,6 +1,6 @@
 import numpy as np
 import pandas as pd
-import sys, time, datetime
+import sys, time, datetime, os
 from scipy import stats
 from scipy.spatial import distance
 from sklearn.preprocessing import minmax_scale
