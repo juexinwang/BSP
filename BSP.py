@@ -58,6 +58,9 @@ parser.add_argument('--debugperform', action='store_true', default=False, help='
 args = parser.parse_args()
 scaleFactor = args.scaleFactor
 
+if not os.path.exists(args.outputDir):
+   os.makedirs(args.outputDir)
+
 def check_param():
     '''Check valid parameters'''
     if args.D1>=args.D2:
