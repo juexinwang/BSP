@@ -8,6 +8,7 @@ library(SpatialExperiment)
 library(STexampleData)
 library(scran)
 library(nnSVG)
+library(pryr)
 gc()
 args = commandArgs(trailingOnly=TRUE)
 # passing from input
