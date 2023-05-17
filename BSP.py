@@ -38,6 +38,10 @@ parser.add_argument('--noinputCellTag', action='store_true', default=False,  hel
 parser.add_argument('--notransTag', action='store_true', default=False,  help='Whether input file has transposed (default: %(default)s)')
 parser.add_argument('--logTransform', action='store_true', default=False,  help='Whether logtransform (default: %(default)s)')
 
+# Select Fitting Distribution
+parser.add_argument('--fitDist', type=str, default='lognormal',  help='Select fitting distribution lognormal/beta  (default: %(default)s)')
+parser.add_argument('--adjustP', action='store_true', default=False,  help='Whether adjust Pvalue: No for lognormal distribution, Yes for beta distribution')
+
 # Adjust for low throughput tech, like starmap
 parser.add_argument('--noExtraNullGenes', action='store_true', default=False, help='Default: add extra 1000* null genes if the input genes are fewer than extraNullGeneNumberThres')
 parser.add_argument('--extraNullGeneNumberThres', type=int, default=50, help='if less than extra Null Gene Number, add null genes (default: %(default)s)')
@@ -219,15 +223,29 @@ def granp(spatialMatrix, expMatrix, D1 = 1.0, D2 = 2.5 ):
     T_matrix_sum_mid = [i for i in T_matrix_sum if i < T_matrix_sum_upper90]
     # print(np.max(T_matrix_sum_mid))
     # print(np.min(T_matrix_sum_mid))
-    debuginfoStr('Start beta fit')
-    BetaPar = stats.beta.fit(T_matrix_sum_mid, floc=0, fscale=1)
-    a0 = BetaPar[0]
-    b0 = BetaPar[1]
-    debuginfoStr('Start calculate pvalue')
-    pvalues = [1-stats.beta.cdf(i, a0, b0) for i in T_matrix_sum]
-    adjpvalues = adjpvalue(pvalues)
-    debuginfoStr('End adjust pvalue')
     
+    ## Select the fitting distribution 
+    if args.fitDist == 'lognormal':
+        debuginfoStr('Start lognormal fit')
+        LogNormPar = [np.mean(np.log(T_matrix_sum_mid)), np.std(np.log(T_matrix_sum_mid))]
+        debuginfoStr('Start calculate pvalue')
+        pvalues = [1 - stats.lognorm.cdf(i, scale=np.exp(LogNormPar[0]), s = LogNormPar[1]) for i in T_matrix_sum]    
+    elif args.fitDist == 'beta':
+        debuginfoStr('Start beta fit')
+        BetaPar = stats.beta.fit(T_matrix_sum_mid, floc=0, fscale=1)
+        a0 = BetaPar[0]
+        b0 = BetaPar[1]
+        debuginfoStr('Start calculate pvalue')
+        pvalues = [1-stats.beta.cdf(i, a0, b0) for i in T_matrix_sum]    
+    else:
+        print('Please select appropriate fitting distribution: lognormal/beta')
+        sys.exit()
+    ## whether adjust pvalue, or not
+    if args.adjustP:
+        adjpvalues = adjpvalue(pvalues)
+        debuginfoStr('End adjust pvalue')
+    else:
+        adjpvalues = pvalues
     return(adjpvalues)
 
 if __name__ == "__main__":
