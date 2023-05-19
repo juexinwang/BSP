@@ -24,10 +24,14 @@ python BSP.py --datasetName MOB --spaLocFilename Rep11_MOB_spa.csv --expFilename
 
 This step will load location and expression files individually under data/MOB/ folder, and generate MOB_P_values.csv in the project folder, where each row corresponds to each gene, each gene name with the inferred pvalue.
 
+If use beta distribution:
+```
+python BSP.py --datasetName MOB --spaLocFilename Rep11_MOB_spa.csv --expFilename Rep11_MOB_count.csv --fitDist beta --adjustP
+```
 
 ## Example 2: 3D spatial transcriptomics from simulation
 ```
-python BSP.py --inputDir data/3Dsim/  --for3DTag --useDirTag --logTransform --nullDebug
+python BSP.py --inputDir data/3Dsim/  --for3DTag --useDirTag 
 ```
 This step will load all location and expression combined files under data/3Dsim/ folder, and generate Pattern_1_P_values.csv in the project folder, where each row corresponds to each gene, each gene name with the inferred pvalue.
 
