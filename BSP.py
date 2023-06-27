@@ -19,7 +19,7 @@ parser.add_argument('--outputFilename', type=str, default='P_values.csv', help='
 
 # Parameters
 parser.add_argument('--D1', type=float, default=1.0,  help='radius of small patch  (default: %(default)s)')
-parser.add_argument('--D2', type=float, default=2.5, help='radius of big patch (default: %(default)s)')
+parser.add_argument('--D2', type=float, default=3.0, help='radius of big patch (default: %(default)s)')
 parser.add_argument('--distType', type=str, default='euclidean',  help='euclidean/cityblock (default: %(default)s)')
 parser.add_argument('--scaleFactor', type=float, default=1.0,  help='alpha>0 (default: %(default)s)')
 parser.add_argument('--edgeFillingTag', action='store_true', default=False, help='Test: fill nodes on the edge')
