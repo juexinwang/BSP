@@ -1,3 +1,5 @@
+## Generate Figure 3D, 3A, 3B, 
+
 library(ggplot2)
 library(scales)
 library(ggpubr)
@@ -56,8 +58,10 @@ rm(list=ls())
 # MOB ---------------------------------------------------------------------
 Col_plate <- c("#E64B35FF", "#3C5488FF", "#4DBBD5FF", "#00A087FF",  
                "#8491B4FF", "#F39B7FFF", "#7E6148FF", "#DC0000FF")
-InputData_MOB <- read.csv("..\\Data\\Manuscript_2D_RealData\\MOB_Pvalues.csv")
-Methods <- colnames(InputData_MOB)[2:5]
+# InputData_MOB <- read.csv("..\\Data\\Manuscript_2D_RealData\\MOB_Pvalues.csv")
+InputData_MOB <- read.csv("/Users/wangjuex/Library/CloudStorage/OneDrive-IndianaUniversity/BSP/Jinpu_Figures/Data/Manuscript_2D_RealData/MOB_Pvalues.csv")
+# Methods <- colnames(InputData_MOB)[2:6]
+Methods<-c("BSP","nnSVG","SPARK","SpatialDE") # SPARKX is 0, so we ignore it
 for(Method in Methods){
   InputData_MOB[,Method] <- as.numeric(InputData_MOB[,Method]<0.05)
 }
@@ -87,12 +91,14 @@ Upset_fig1 <- ggplot(data=InputData_MOB_Inter, aes(x=Methods, y=Benchmarks, fill
   scale_fill_manual(values=c(Col_plate[1:4], terrain.colors(12)[1:11]))
 png(file="..\\Outputs\\Manuscript_2D_RealData_MOB.png",width = 10,height = 6,units = "in",
     res = 600)
+# png(file="~/Downloads/Manuscript_2D_RealData_MOB.png",width = 10,height = 6,units = "in",
+#     res = 600)
 print(Upset_fig1)
 dev.off()
 
 
 InputData_MOB_venn <- lapply(Methods, function(Method){
-  InputData_MOB$Gene[which(InputData_MOB[1:14,Method]==1)]
+  InputData_MOB$Gene[which(InputData_MOB[1:10,Method]==1)]
 })
 names(InputData_MOB_venn) <- Methods
 Upset_fig1_2 <- ggvenn(
@@ -102,6 +108,8 @@ Upset_fig1_2 <- ggvenn(
 )
 png(file="..\\Outputs\\Manuscript_2D_RealData_MOB_venn.png",width = 10,height = 6,units = "in",
     res = 600)
+# png(file="~/Downloads/Manuscript_2D_RealData_MOB_venn.png",width = 10,height = 6,units = "in",
+#     res = 600)
 print(Upset_fig1_2)
 dev.off()
 
@@ -115,7 +123,8 @@ rm(list=ls())
 # HBC ---------------------------------------------------------------------
 Col_plate <- c("#E64B35FF", "#3C5488FF", "#4DBBD5FF", "#00A087FF",  
                "#8491B4FF", "#F39B7FFF", "#7E6148FF", "#DC0000FF")
-InputData_HBC <- read.csv("..\\Data\\Manuscript_2D_RealData\\HBC_Pvalues.csv")
+# InputData_HBC <- read.csv("..\\Data\\Manuscript_2D_RealData\\HBC_Pvalues.csv")
+InputData_HBC <- read.csv("/Users/wangjuex/Library/CloudStorage/OneDrive-IndianaUniversity/BSP/Jinpu_Figures/Data/Manuscript_2D_RealData/HBC_Pvalues_.csv")
 Methods <- colnames(InputData_HBC)[2:5]
 for(Method in Methods){
   InputData_HBC[,Method] <- as.numeric(InputData_HBC[,Method]<0.05)
@@ -144,7 +153,9 @@ Upset_fig2 <- ggplot(data=InputData_HBC_Inter, aes(x=Methods, y=Benchmarks, fill
   geom_bar(stat="identity", position=position_dodge()) + xlab(NULL) + ylab("Number of Benchmarks") +
   scale_y_continuous(breaks= pretty_breaks()) + 
   scale_fill_manual(values=c(Col_plate[1:4], terrain.colors(12)[1:11]))
-png(file="..\\Outputs\\Manuscript_2D_RealData_HBC.png",width = 10,height = 6,units = "in",
+# png(file="..\\Outputs\\Manuscript_2D_RealData_HBC.png",width = 10,height = 6,units = "in",
+#     res = 600)
+png(file="~/Downloads/Manuscript_2D_RealData_HBC.png",width = 10,height = 6,units = "in",
     res = 600)
 print(Upset_fig2)
 dev.off()
@@ -159,7 +170,9 @@ Upset_fig2_2 <- ggvenn(
   fill_color = Col_plate[1:4],
   stroke_size = 0.5, set_name_size = 4
 )
-png(file="..\\Outputs\\Manuscript_2D_RealData_HBC_venn.png",width = 10,height = 6,units = "in",
+# png(file="..\\Outputs\\Manuscript_2D_RealData_HBC_venn.png",width = 10,height = 6,units = "in",
+#     res = 600)
+png(file="~/Downloads/Manuscript_2D_RealData_HBC_venn.png",width = 10,height = 6,units = "in",
     res = 600)
 print(Upset_fig2_2)
 dev.off()
