@@ -54,6 +54,7 @@ parser.add_argument('--isolated', action='store_true', default=False, help='Defa
 
 # Scaling 
 parser.add_argument('--noScaling', action='store_true', default=False, help='Default: scaling')
+parser.add_argument('--quantileScaling', action='store_true', default=False, help='Default: minmax scaling. QuantileScaling is preferred to tolerate noises')
 
 # debug
 parser.add_argument('--memory', action='store_true', default=False, help='Output perform info in mem usage')
@@ -98,6 +99,32 @@ def debugperformStr():
             print('Mem consumption: '+str(mem))
         else:
             print('Non-linux system does not support memory consumption statistics') 
+
+def normalizeScalFactor(args,spatialMatrix):
+    '''
+    Scaling to normalize the spots in different scales: e.g.100 spots in 100*100: sqrt(100*100)/sqrt(100)=10
+    '''
+    scalFactor = 1.0
+
+    # default: scaling
+    if not args.noScaling:
+        # quantileScaling for noisy data
+        if args.quantileScaling:
+            if args.for3DTag:
+                scalFactor = gmean(np.quantile(spatialMatrix,0.975,axis=0)-np.quantile(spatialMatrix,0.025,axis=0))/(spatialMatrix.shape[0])**(1/3)
+            else:
+                scalFactor = gmean(np.quantile(spatialMatrix,0.975,axis=0)-np.quantile(spatialMatrix,0.025,axis=0))/np.sqrt(spatialMatrix.shape[0])
+        else:
+        # default: min-max
+            if args.for3DTag:
+                scalFactor = gmean(np.max(spatialMatrix,axis=0)-np.min(spatialMatrix,axis=0))/(spatialMatrix.shape[0])**(1/3)
+            else:
+                scalFactor = gmean(np.max(spatialMatrix,axis=0)-np.min(spatialMatrix,axis=0))/np.sqrt(spatialMatrix.shape[0])
+                    
+    D1 = args.D1*scalFactor
+    D2 = args.D2*scalFactor
+    print("Scaled small patch radius:"+str(D1)+"\tScaled big patch radius:"+str(D2))
+    return D1,D2
 
 def checkNullGenes(expMatrix):
     '''
@@ -252,8 +279,7 @@ if __name__ == "__main__":
     start_time = time.time()
 
     debuginfoStr('Start')
-    check_param()
-    scalFactor = 1.0 # Function f
+    check_param() 
 
     # if 3D: 
     # The example data comes from Vickovic, S., Schapiro, D., Carlberg, K. et al. Three-dimensional spatial transcriptomics uncovers cell type localizations in the human rheumatoid arthritis synovium. Commun Biol 5, 129 (2022). https://doi.org/10.1038/s42003-022-03050-3
@@ -295,11 +321,7 @@ if __name__ == "__main__":
                 expMatrix = np.log(expMatrix+1)
 
             # Scaling to normalize the spots in different scales: e.g.100 spots in 100*100: sqrt(100*100)/sqrt(100)=10
-            if not args.noScaling:
-                scalFactor = gmean(np.max(spatialMatrix,axis=0)-np.min(spatialMatrix,axis=0))/(spatialMatrix.shape[0])**(1/3)
-                D1 = args.D1*scalFactor
-                D2 = args.D2*scalFactor
-                print("Scaled small patch radius:"+str(D1)+"\tScaled big patch radius:"+str(D2))
+            D1,D2=normalizeScalFactor(args=args,spatialMatrix=spatialMatrix)
 
             alg_time = time.time()
             #============================ calculate granularity ==========================#
@@ -351,11 +373,7 @@ if __name__ == "__main__":
                     expMatrix = np.log(expMatrix+1)
                 
                 # Scaling to normalize the spots in different scales: e.g.100 spots in 100*100: sqrt(100*100)/sqrt(100)=10
-                if not args.noScaling:
-                    scalFactor = gmean(np.max(spatialMatrix,axis=0)-np.min(spatialMatrix,axis=0))/(spatialMatrix.shape[0])**(1/3)
-                    D1 = args.D1*scalFactor
-                    D2 = args.D2*scalFactor
-                    print("Scaled small patch radius:"+str(D1)+"\tScaled big patch radius:"+str(D2))
+                D1,D2=normalizeScalFactor(args=args,spatialMatrix=spatialMatrix)
 
                 #============================ calculate granularity ==========================#
                 P_values = granp(spatialMatrix, expMatrix, D1 = D1, D2 = D2)
@@ -432,11 +450,7 @@ if __name__ == "__main__":
                 expMatrix = np.log(expMatrix+1)
             
             # Scaling to normalize the spots in different scales: e.g.100 spots in 100*100: sqrt(100*100)/sqrt(100)=10
-            if not args.noScaling:
-                scalFactor = gmean(np.max(spatialMatrix,axis=0)-np.min(spatialMatrix,axis=0))/np.sqrt(spatialMatrix.shape[0])
-                D1 = args.D1*scalFactor
-                D2 = args.D2*scalFactor
-                print("Scaled small patch radius:"+str(D1)+"\tScaled big patch radius:"+str(D2))
+            D1,D2=normalizeScalFactor(args=args,spatialMatrix=spatialMatrix)
 
             alg_time = time.time()
             #============================ calculate granularity ==========================#
@@ -486,11 +500,7 @@ if __name__ == "__main__":
                     expMatrix = np.log(expMatrix+1)
 
                 # Scaling to normalize the spots in different scales: e.g.100 spots in 100*100: sqrt(100*100)/sqrt(100)=10
-                if not args.noScaling:
-                    scalFactor = gmean(np.max(spatialMatrix,axis=0)-np.min(spatialMatrix,axis=0))/np.sqrt(spatialMatrix.shape[0])
-                    D1 = args.D1*scalFactor
-                    D2 = args.D2*scalFactor
-                    print("Scaled small patch radius:"+str(D1)+"\tScaled big patch radius:"+str(D2))
+                D1,D2=normalizeScalFactor(args=args,spatialMatrix=spatialMatrix)
 
                 #============================ calculate granularity ==========================#
                 P_values = granp(spatialMatrix, expMatrix, D1 = D1, D2 = D2)

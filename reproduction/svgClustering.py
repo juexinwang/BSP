@@ -1,6 +1,6 @@
-######
+######################################################################
 # Clustering the identified SVGs from the AKI kidney and 3dst RA 
-######
+######################################################################
 
 import numpy as np
 import pandas as pd
@@ -8,9 +8,9 @@ import matplotlib.pyplot as plt
 from sklearn.cluster import AgglomerativeClustering
 from scipy.cluster import hierarchy
 
-##########
+######################################################################
 # Kidney
-##########
+######################################################################
 df1 = pd.read_csv('/Users/wangjuex/projects/svgGranularity/kidneysvglist.txt',header=None)
 genelist= df1[0].tolist()
 
@@ -48,9 +48,9 @@ glist = df_svg.iloc[labels==1].index.tolist()
 with open('kidney_1_genes.txt', 'w') as f:
     f.write('\n'.join(glist))
 
-#########
+######################################################################
 # plot
-#########
+######################################################################
 
 coord=pd.read_csv(coordFilename)
 t1= pd.read_csv(expFilename,index_col=0)
@@ -98,9 +98,9 @@ with open('/Users/wangjuex/projects/svgGranularity/kidneysvglist.txt') as f:
         saveGenePlotLog(line)
 
 
-##########
+######################################################################
 # RA 3dst
-##########
+######################################################################
 df1 = pd.read_csv('/Users/wangjuex/projects/svgGranularity/RAsvglist.txt',header=None)
 genelist= df1[0].tolist()
 
