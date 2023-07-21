@@ -1,5 +1,7 @@
-## Generate Figure 5C,5D,5E and Supplementary Figure 25
-## Plot 3D plots of genes in RA
+#############################################################
+# Generate Figure 5C,5D,5E and Supplementary Figure 25
+# Plot 3D plots of genes in RA
+#############################################################
 
 library(plot3D)
 library(plotly)
@@ -26,211 +28,211 @@ Createcolorbar <- function(InputValues){
 }
 
 # 3d real data 1
-# my_palette1 <- Createcolorbar(InputData[,"MAN1A2"])
-# Fig1 <- plot_ly() %>%
-#   add_trace(data = InputData,
-#             x = ~X, y = ~Y, z = ~Z,
-#             marker = list(size = 5),
-#             mode = "markers",
-#             opacity = 0.8,
-#             type = "scatter3d",
-#             color = ~MAN1A2,
-#             colors = my_palette1) %>%
-#   layout(showlegend = FALSE,
-#          margin = list(
-#            l = 20,
-#            r = 1,
-#            b = 20,
-#            t = 1,
-#            pad = 1
-#          ),
-#          scene = list(camera = list(center = list(x = 0, y = 0, z = 0),
-#                                     eye = list(x = 0.75, y = -2.0, z = 1.0)),
-#                       aspectratio = list(x = 1, y = 1, z = 1.5),
-#                       xaxis = list(autotick = TRUE, ticks = '', showticklabels = FALSE),
-#                       yaxis = list(autotick = TRUE, ticks = '', showticklabels = FALSE),
-#                       zaxis = list(autotick = TRUE, ticks = '', showticklabels = FALSE)) ) %>%
-#   hide_colorbar()
+my_palette1 <- Createcolorbar(InputData[,"MAN1A2"])
+Fig1 <- plot_ly() %>%
+  add_trace(data = InputData,
+            x = ~X, y = ~Y, z = ~Z,
+            marker = list(size = 5),
+            mode = "markers",
+            opacity = 0.8,
+            type = "scatter3d",
+            color = ~MAN1A2,
+            colors = my_palette1) %>%
+  layout(showlegend = FALSE,
+         margin = list(
+           l = 20,
+           r = 1,
+           b = 20,
+           t = 1,
+           pad = 1
+         ),
+         scene = list(camera = list(center = list(x = 0, y = 0, z = 0),
+                                    eye = list(x = 0.75, y = -2.0, z = 1.0)),
+                      aspectratio = list(x = 1, y = 1, z = 1.5),
+                      xaxis = list(autotick = TRUE, ticks = '', showticklabels = FALSE),
+                      yaxis = list(autotick = TRUE, ticks = '', showticklabels = FALSE),
+                      zaxis = list(autotick = TRUE, ticks = '', showticklabels = FALSE)) ) %>%
+  hide_colorbar()
 
-# htmlwidgets::saveWidget(as_widget(Fig1), ".\\Outputs\\Manuscript_3D_RealData_1.html")
-
-
-# # 3d real data 2
-# my_palette2 <- Createcolorbar(InputData[,"SEMA4D"])
-# Fig2 <- plot_ly() %>%
-#   add_trace(data = InputData,
-#             x = ~X, y = ~Y, z = ~Z,
-#             marker = list(size = 5),
-#             mode = "markers",
-#             opacity = 0.8,
-#             type = "scatter3d",
-#             color = ~SEMA4D,
-#             colors = my_palette2) %>%
-#   layout(showlegend = FALSE,
-#          margin = list(
-#            l = 20,
-#            r = 1,
-#            b = 20,
-#            t = 1,
-#            pad = 1
-#          ),
-#          scene = list(camera = list(center = list(x = 0, y = 0, z = 0),
-#                                     eye = list(x = 0.75, y = -2.0, z = 1.0)),
-#                       aspectratio = list(x = 1, y = 1, z = 1.5),
-#                       xaxis = list(autotick = TRUE, ticks = '', showticklabels = FALSE),
-#                       yaxis = list(autotick = TRUE, ticks = '', showticklabels = FALSE),
-#                       zaxis = list(autotick = TRUE, ticks = '', showticklabels = FALSE)) ) %>%
-#   hide_colorbar()
-
-# htmlwidgets::saveWidget(as_widget(Fig2), ".\\Output\\Manuscript_3D_RealData_2.html")
+htmlwidgets::saveWidget(as_widget(Fig1), ".\\Outputs\\Manuscript_3D_RealData_1.html")
 
 
-# # 3d real data 3
-# my_palette3 <- Createcolorbar(InputData[,"RAC2"])
-# Fig3 <- plot_ly() %>%
-#   add_trace(data = InputData,
-#             x = ~X, y = ~Y, z = ~Z,
-#             marker = list(size = 5),
-#             mode = "markers",
-#             opacity = 0.8,
-#             type = "scatter3d",
-#             color = ~RAC2,
-#             colors = my_palette3) %>%
-#   layout(showlegend = FALSE,
-#          margin = list(
-#            l = 20,
-#            r = 1,
-#            b = 20,
-#            t = 1,
-#            pad = 1
-#          ),
-#          scene = list(camera = list(center = list(x = 0, y = 0, z = 0),
-#                                     eye = list(x = 0.75, y = -2.0, z = 1.0)),
-#                       aspectratio = list(x = 1, y = 1, z = 1.5),
-#                       xaxis = list(autotick = TRUE, ticks = '', showticklabels = FALSE),
-#                       yaxis = list(autotick = TRUE, ticks = '', showticklabels = FALSE),
-#                       zaxis = list(autotick = TRUE, ticks = '', showticklabels = FALSE)) ) %>%
-#   hide_colorbar()
+# 3d real data 2
+my_palette2 <- Createcolorbar(InputData[,"SEMA4D"])
+Fig2 <- plot_ly() %>%
+  add_trace(data = InputData,
+            x = ~X, y = ~Y, z = ~Z,
+            marker = list(size = 5),
+            mode = "markers",
+            opacity = 0.8,
+            type = "scatter3d",
+            color = ~SEMA4D,
+            colors = my_palette2) %>%
+  layout(showlegend = FALSE,
+         margin = list(
+           l = 20,
+           r = 1,
+           b = 20,
+           t = 1,
+           pad = 1
+         ),
+         scene = list(camera = list(center = list(x = 0, y = 0, z = 0),
+                                    eye = list(x = 0.75, y = -2.0, z = 1.0)),
+                      aspectratio = list(x = 1, y = 1, z = 1.5),
+                      xaxis = list(autotick = TRUE, ticks = '', showticklabels = FALSE),
+                      yaxis = list(autotick = TRUE, ticks = '', showticklabels = FALSE),
+                      zaxis = list(autotick = TRUE, ticks = '', showticklabels = FALSE)) ) %>%
+  hide_colorbar()
 
-# htmlwidgets::saveWidget(as_widget(Fig3), ".\\Output\\Manuscript_3D_RealData_3.html")
-
-##################################################
-## Plot representative genes of four RA patterns
-##################################################
-# # RA cluster 1
-# my_palette4 <- Createcolorbar(InputData[,"ACTB"])
-# Fig4 <- plot_ly() %>%
-#   add_trace(data = InputData,
-#             x = ~X, y = ~Y, z = ~Z,
-#             marker = list(size = 5),
-#             mode = "markers",
-#             opacity = 0.8,
-#             type = "scatter3d",
-#             color = ~ACTB,
-#             colors = my_palette4) %>%
-#   layout(showlegend = FALSE,
-#          margin = list(
-#            l = 20,
-#            r = 1,
-#            b = 20,
-#            t = 1,
-#            pad = 1
-#          ),
-#          scene = list(camera = list(center = list(x = 0, y = 0, z = 0),
-#                                     eye = list(x = 0.75, y = -2.0, z = 1.0)),
-#                       aspectratio = list(x = 1, y = 1, z = 1.5),
-#                       xaxis = list(autotick = TRUE, ticks = '', showticklabels = FALSE),
-#                       yaxis = list(autotick = TRUE, ticks = '', showticklabels = FALSE),
-#                       zaxis = list(autotick = TRUE, ticks = '', showticklabels = FALSE)) ) %>%
-#   hide_colorbar()
-
-# htmlwidgets::saveWidget(as_widget(Fig4), "/Users/wangjuex/projects/svgGranularity/Manuscript_3D_RealData_RA_0.html")
-
-# # RA cluster 2
-# my_palette5 <- Createcolorbar(InputData[,"ABCC3"])
-# Fig5 <- plot_ly() %>%
-#   add_trace(data = InputData,
-#             x = ~X, y = ~Y, z = ~Z,
-#             marker = list(size = 5),
-#             mode = "markers",
-#             opacity = 0.8,
-#             type = "scatter3d",
-#             color = ~ABCC3,
-#             colors = my_palette5) %>%
-#   layout(showlegend = FALSE,
-#          margin = list(
-#            l = 20,
-#            r = 1,
-#            b = 20,
-#            t = 1,
-#            pad = 1
-#          ),
-#          scene = list(camera = list(center = list(x = 0, y = 0, z = 0),
-#                                     eye = list(x = 0.75, y = -2.0, z = 1.0)),
-#                       aspectratio = list(x = 1, y = 1, z = 1.5),
-#                       xaxis = list(autotick = TRUE, ticks = '', showticklabels = FALSE),
-#                       yaxis = list(autotick = TRUE, ticks = '', showticklabels = FALSE),
-#                       zaxis = list(autotick = TRUE, ticks = '', showticklabels = FALSE)) ) %>%
-#   hide_colorbar()
-
-# htmlwidgets::saveWidget(as_widget(Fig5), "/Users/wangjuex/projects/svgGranularity/Manuscript_3D_RealData_RA_1.html")
+htmlwidgets::saveWidget(as_widget(Fig2), ".\\Output\\Manuscript_3D_RealData_2.html")
 
 
-# # RA cluster 3
-# my_palette6 <- Createcolorbar(InputData[,"A2M"])
-# Fig6 <- plot_ly() %>%
-#   add_trace(data = InputData,
-#             x = ~X, y = ~Y, z = ~Z,
-#             marker = list(size = 5),
-#             mode = "markers",
-#             opacity = 0.8,
-#             type = "scatter3d",
-#             color = ~A2M,
-#             colors = my_palette6) %>%
-#   layout(showlegend = FALSE,
-#          margin = list(
-#            l = 20,
-#            r = 1,
-#            b = 20,
-#            t = 1,
-#            pad = 1
-#          ),
-#          scene = list(camera = list(center = list(x = 0, y = 0, z = 0),
-#                                     eye = list(x = 0.75, y = -2.0, z = 1.0)),
-#                       aspectratio = list(x = 1, y = 1, z = 1.5),
-#                       xaxis = list(autotick = TRUE, ticks = '', showticklabels = FALSE),
-#                       yaxis = list(autotick = TRUE, ticks = '', showticklabels = FALSE),
-#                       zaxis = list(autotick = TRUE, ticks = '', showticklabels = FALSE)) ) %>%
-#   hide_colorbar()
+# 3d real data 3
+my_palette3 <- Createcolorbar(InputData[,"RAC2"])
+Fig3 <- plot_ly() %>%
+  add_trace(data = InputData,
+            x = ~X, y = ~Y, z = ~Z,
+            marker = list(size = 5),
+            mode = "markers",
+            opacity = 0.8,
+            type = "scatter3d",
+            color = ~RAC2,
+            colors = my_palette3) %>%
+  layout(showlegend = FALSE,
+         margin = list(
+           l = 20,
+           r = 1,
+           b = 20,
+           t = 1,
+           pad = 1
+         ),
+         scene = list(camera = list(center = list(x = 0, y = 0, z = 0),
+                                    eye = list(x = 0.75, y = -2.0, z = 1.0)),
+                      aspectratio = list(x = 1, y = 1, z = 1.5),
+                      xaxis = list(autotick = TRUE, ticks = '', showticklabels = FALSE),
+                      yaxis = list(autotick = TRUE, ticks = '', showticklabels = FALSE),
+                      zaxis = list(autotick = TRUE, ticks = '', showticklabels = FALSE)) ) %>%
+  hide_colorbar()
 
-# htmlwidgets::saveWidget(as_widget(Fig6), "/Users/wangjuex/projects/svgGranularity/Manuscript_3D_RealData_RA_2.html")
+htmlwidgets::saveWidget(as_widget(Fig3), ".\\Output\\Manuscript_3D_RealData_3.html")
+
+#################################################
+# Plot representative genes of four RA patterns
+#################################################
+# RA cluster 1
+my_palette4 <- Createcolorbar(InputData[,"ACTB"])
+Fig4 <- plot_ly() %>%
+  add_trace(data = InputData,
+            x = ~X, y = ~Y, z = ~Z,
+            marker = list(size = 5),
+            mode = "markers",
+            opacity = 0.8,
+            type = "scatter3d",
+            color = ~ACTB,
+            colors = my_palette4) %>%
+  layout(showlegend = FALSE,
+         margin = list(
+           l = 20,
+           r = 1,
+           b = 20,
+           t = 1,
+           pad = 1
+         ),
+         scene = list(camera = list(center = list(x = 0, y = 0, z = 0),
+                                    eye = list(x = 0.75, y = -2.0, z = 1.0)),
+                      aspectratio = list(x = 1, y = 1, z = 1.5),
+                      xaxis = list(autotick = TRUE, ticks = '', showticklabels = FALSE),
+                      yaxis = list(autotick = TRUE, ticks = '', showticklabels = FALSE),
+                      zaxis = list(autotick = TRUE, ticks = '', showticklabels = FALSE)) ) %>%
+  hide_colorbar()
+
+htmlwidgets::saveWidget(as_widget(Fig4), "/Users/wangjuex/projects/svgGranularity/Manuscript_3D_RealData_RA_0.html")
+
+# RA cluster 2
+my_palette5 <- Createcolorbar(InputData[,"ABCC3"])
+Fig5 <- plot_ly() %>%
+  add_trace(data = InputData,
+            x = ~X, y = ~Y, z = ~Z,
+            marker = list(size = 5),
+            mode = "markers",
+            opacity = 0.8,
+            type = "scatter3d",
+            color = ~ABCC3,
+            colors = my_palette5) %>%
+  layout(showlegend = FALSE,
+         margin = list(
+           l = 20,
+           r = 1,
+           b = 20,
+           t = 1,
+           pad = 1
+         ),
+         scene = list(camera = list(center = list(x = 0, y = 0, z = 0),
+                                    eye = list(x = 0.75, y = -2.0, z = 1.0)),
+                      aspectratio = list(x = 1, y = 1, z = 1.5),
+                      xaxis = list(autotick = TRUE, ticks = '', showticklabels = FALSE),
+                      yaxis = list(autotick = TRUE, ticks = '', showticklabels = FALSE),
+                      zaxis = list(autotick = TRUE, ticks = '', showticklabels = FALSE)) ) %>%
+  hide_colorbar()
+
+htmlwidgets::saveWidget(as_widget(Fig5), "/Users/wangjuex/projects/svgGranularity/Manuscript_3D_RealData_RA_1.html")
 
 
-# # RA cluster 4
-# my_palette7 <- Createcolorbar(InputData[,"ACP5"])
-# Fig7 <- plot_ly() %>%
-#   add_trace(data = InputData,
-#             x = ~X, y = ~Y, z = ~Z,
-#             marker = list(size = 5),
-#             mode = "markers",
-#             opacity = 0.8,
-#             type = "scatter3d",
-#             color = ~ACP5,
-#             colors = my_palette6) %>%
-#   layout(showlegend = FALSE,
-#          margin = list(
-#            l = 20,
-#            r = 1,
-#            b = 20,
-#            t = 1,
-#            pad = 1
-#          ),
-#          scene = list(camera = list(center = list(x = 0, y = 0, z = 0),
-#                                     eye = list(x = 0.75, y = -2.0, z = 1.0)),
-#                       aspectratio = list(x = 1, y = 1, z = 1.5),
-#                       xaxis = list(autotick = TRUE, ticks = '', showticklabels = FALSE),
-#                       yaxis = list(autotick = TRUE, ticks = '', showticklabels = FALSE),
-#                       zaxis = list(autotick = TRUE, ticks = '', showticklabels = FALSE)) ) %>%
-#   hide_colorbar()
+# RA cluster 3
+my_palette6 <- Createcolorbar(InputData[,"A2M"])
+Fig6 <- plot_ly() %>%
+  add_trace(data = InputData,
+            x = ~X, y = ~Y, z = ~Z,
+            marker = list(size = 5),
+            mode = "markers",
+            opacity = 0.8,
+            type = "scatter3d",
+            color = ~A2M,
+            colors = my_palette6) %>%
+  layout(showlegend = FALSE,
+         margin = list(
+           l = 20,
+           r = 1,
+           b = 20,
+           t = 1,
+           pad = 1
+         ),
+         scene = list(camera = list(center = list(x = 0, y = 0, z = 0),
+                                    eye = list(x = 0.75, y = -2.0, z = 1.0)),
+                      aspectratio = list(x = 1, y = 1, z = 1.5),
+                      xaxis = list(autotick = TRUE, ticks = '', showticklabels = FALSE),
+                      yaxis = list(autotick = TRUE, ticks = '', showticklabels = FALSE),
+                      zaxis = list(autotick = TRUE, ticks = '', showticklabels = FALSE)) ) %>%
+  hide_colorbar()
 
-# htmlwidgets::saveWidget(as_widget(Fig7), "/Users/wangjuex/projects/svgGranularity/Manuscript_3D_RealData_RA_3.html")
+htmlwidgets::saveWidget(as_widget(Fig6), "/Users/wangjuex/projects/svgGranularity/Manuscript_3D_RealData_RA_2.html")
+
+
+# RA cluster 4
+my_palette7 <- Createcolorbar(InputData[,"ACP5"])
+Fig7 <- plot_ly() %>%
+  add_trace(data = InputData,
+            x = ~X, y = ~Y, z = ~Z,
+            marker = list(size = 5),
+            mode = "markers",
+            opacity = 0.8,
+            type = "scatter3d",
+            color = ~ACP5,
+            colors = my_palette6) %>%
+  layout(showlegend = FALSE,
+         margin = list(
+           l = 20,
+           r = 1,
+           b = 20,
+           t = 1,
+           pad = 1
+         ),
+         scene = list(camera = list(center = list(x = 0, y = 0, z = 0),
+                                    eye = list(x = 0.75, y = -2.0, z = 1.0)),
+                      aspectratio = list(x = 1, y = 1, z = 1.5),
+                      xaxis = list(autotick = TRUE, ticks = '', showticklabels = FALSE),
+                      yaxis = list(autotick = TRUE, ticks = '', showticklabels = FALSE),
+                      zaxis = list(autotick = TRUE, ticks = '', showticklabels = FALSE)) ) %>%
+  hide_colorbar()
+
+htmlwidgets::saveWidget(as_widget(Fig7), "/Users/wangjuex/projects/svgGranularity/Manuscript_3D_RealData_RA_3.html")

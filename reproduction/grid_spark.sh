@@ -1,3 +1,7 @@
+#################################################################################################################################
+# SPARK performances on simulations using increasing number of genes and cells. See Figure 2C,2D, and Supplementary Figure 3
+#################################################################################################################################
+
 # Genes
 echo '2000*2000'
 Rscript spark.r /home/wangjue/Time_Mem_Cost_Test/By_Genes/Gene2000_Cell2000.csv > grid_spark.txt

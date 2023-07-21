@@ -1,6 +1,6 @@
-######################################################################
-# Clustering the identified SVGs from the AKI kidney and 3dst RA 
-######################################################################
+###############################################################################
+# Perform clustering the identified SVGs from the AKI kidney and 3dst RA 
+###############################################################################
 
 import numpy as np
 import pandas as pd

@@ -1,4 +1,6 @@
-## Generate Figure 4B
+#############################################################
+# Generate Figure 4B
+#############################################################
 
 setwd("D:\\PhD\\Lab\\Project_3_SVG\\Figures\\")
 library(ggplot2)

@@ -1,4 +1,6 @@
-## Plot Figure 3F of the manuscript
+#############################################################
+# Plot Figure 3F of the manuscript
+#############################################################
 
 import numpy as np
 import pandas as pd

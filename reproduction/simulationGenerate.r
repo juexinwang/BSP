@@ -1,4 +1,6 @@
-## Generate simulation data
+#############################################################
+# Generate simulation data
+#############################################################
 
 InputData <- openxlsx::read.xlsx("mmc6.xlsx",
                                  colNames =  FALSE)

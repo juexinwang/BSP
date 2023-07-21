@@ -1,8 +1,12 @@
-#Ref: https://xzhoulab.github.io/SPARK/
-#https://xzhoulab.github.io/SPARK/02_SPARK_Example/
+##########################################################################################################################
+# Analysis using SPARKX in the comparison
+#
+# Ref: https://xzhoulab.github.io/SPARK/
+# https://xzhoulab.github.io/SPARK/02_SPARK_Example/
 #
 # Usage:
 # Rscript sparkx.r /home/wangjue/svgGranularity/By_Cell_Numbers/Sim_data_Cells_500.csv
+##########################################################################################################################
 
 library('SPARK')
 library(pryr)

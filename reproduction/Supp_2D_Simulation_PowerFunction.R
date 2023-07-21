@@ -1,3 +1,7 @@
+################################################################
+# Function for Power analysis in 2D simulations
+################################################################
+
 powermatrix <- function(InputData){
   SVG_index <- 1:1000
   NULL_index <- 1001:nrow(InputData)

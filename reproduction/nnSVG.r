@@ -1,9 +1,13 @@
-#Ref: https://bioconductor.org/packages/release/bioc/html/nnSVG.html
-#https://bioconductor.org/packages/release/bioc/vignettes/nnSVG/inst/doc/nnSVG.html
+##########################################################################################################################
+# Analysis using nnSVG in the comparison
+#
+# Ref: https://bioconductor.org/packages/release/bioc/html/nnSVG.html
+# https://bioconductor.org/packages/release/bioc/vignettes/nnSVG/inst/doc/nnSVG.html
 #
 # Usage:
 # Rscript nnSVG.r '/home/wangjue/fig1/20220415_DEFAULT-changeNoise_sim/sim_MOB_pattern4_fc4_tau80_count_power9.csv'
 # Rscript nnSVG.r /home/wangjue/Time_Mem_Cost_Test_v2/usage/Gene2000_Cell2000.csv
+##########################################################################################################################
 
 library(SpatialExperiment)
 library(STexampleData)

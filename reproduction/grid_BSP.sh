@@ -1,3 +1,7 @@
+#################################################################################################################################
+# BSP performances on simulations using increasing number of genes and cells. See Figure 2C,2D, and Supplementary Figure 3
+#################################################################################################################################
+
 # Genes
 echo '2000*2000'
 python BSP.py --debugperform --oneFileTag --datasetName By_Genes --inputFile Gene2000_Cell2000.csv --inputDir /home/wangjue/Time_Mem_Cost_Test/ --outputDir /home/wangjue/svgGranularity/tmp/ > grid.txt

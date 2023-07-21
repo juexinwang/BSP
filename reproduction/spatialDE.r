@@ -1,9 +1,13 @@
+##########################################################################################################################
+# Analysis using SpatialDE in the comparison
+#
 # http://bioconductor.org/packages/release/bioc/vignettes/spatialDE/inst/doc/spatialDE.html
 # Changed for only performance usage and record
 # Ref: http://bioconductor.org/packages/release/bioc/vignettes/spatialDE/inst/doc/spatialDE.html
 #
 # Usage:
 # Rscript spatialDE.r /home/wangjue/svgGranularity/By_Cell_Numbers/Sim_data_Cells_500.csv
+##########################################################################################################################
 
 library(spatialDE)
 library(pryr)

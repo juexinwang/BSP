@@ -1,4 +1,7 @@
-## Generate Figure 
+################################################################
+# Generate Figure 3e, Supplementary Figure 25, and
+# Corresponding Supplementary Figures 26-33
+################################################################
 
 library(ggplot2)
 library(scales)
