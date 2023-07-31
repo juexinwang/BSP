@@ -1,14 +1,12 @@
 #############################################################
-# Generate Figure 2B
+# Power analysis for inconsistent within-plane and inter-plane resolution
+# Supplementary Figure 21
 #############################################################
 
-setwd("D:\\PhD\\Lab\\Project_3_SVG\\Figures\\")
-library(ggplot2)
-library(gridExtra)
-library(ggpubr)
-InputDataPath <- ".\\Data\\Manuscript_2D_Simulation_Power\\20220415_DEFAULT_sim\\Out_1.0_3.0"
+# function ----------------------------------------------------------------
 
 
+# prepare power matrix
 powermatrix <- function(InputData){
   SVG_index <- 1:1000
   NULL_index <- 1001:nrow(InputData)
@@ -50,6 +48,8 @@ powermatrix <- function(InputData){
       }
       else{
         Method_Power_Step <- OutputData2$Power[Method_Power_check]
+        OutputData2_comp <- rbind(OutputData2_comp, 
+                                  c(Method, FDR_step, Method_Power_Step))
       }
     }
   }
@@ -65,19 +65,21 @@ powermatrix <- function(InputData){
   OutputData2 <- OutputData2[!duplicated(OutputData2),]
   return(OutputData2)
 }
-powerplot <- function(InputPath){
+
+# calculate power
+powermatrixall <- function(InputPath){
   InputFiles <- list.files(InputPath)
-  InputFiles <- InputFiles[which(grepl("_fc4_", InputFiles))]
-  InputFiles <- InputFiles[which(grepl("count_power1_", InputFiles))]
-  ggplot_list <- list()
+  InputFiles <- InputFiles[which(grepl("1_mergedPvalue", InputFiles))]
+  
+  PowerMatrixAll_List <- list()
   for(i in 1:length(InputFiles)){
-    InputData <- read.csv(paste0(InputPath, "\\",InputFiles[i]))
+    InputData <- read.csv(paste0(InputPath, InputFiles[i]))
     PowerMatrixAll <- powermatrix(InputData)
     colnames(PowerMatrixAll)[3] <- "Power1"
     for(j in 2:10){
-      InputData <- read.csv(paste0(InputPath, "\\",
-                                   gsub("count_power1_",
-                                        paste0("count_power", j ,"_"),
+      InputData <- read.csv(paste0(InputPath, 
+                                   gsub("1_mergedPvalue",
+                                        paste0(j, "_mergedPvalue"),
                                         InputFiles[i])))
       PowerMatrix <- powermatrix(InputData)
       colnames(PowerMatrix)[3] <- paste0("Power",j)
@@ -86,34 +88,59 @@ powerplot <- function(InputPath){
                               all = TRUE)
     }
     PowerMatrixAll$Power <- rowMeans(PowerMatrixAll[,3:12], na.rm = TRUE)
-    PowerMatrixAll$Methods <- factor(PowerMatrixAll$Methods, levels = c("bsp_pvalue",
-                                                                        "spark_pvalue",
-                                                                        "sparkx_pvalue",
-                                                                        "spatialde_pvalue",
-                                                                        "MoranI_pvalue"))
-    levels(PowerMatrixAll$Methods) <- c("BSP",
-                                        "SPARK",
-                                        "SPARK-X",
-                                        "SpatialDE",
-                                        "Moran's I")
-    Col_plate <- c("#E64B35FF", "#3C5488FF", "#4DBBD5FF", "#00A087FF",  
+    PowerMatrixAll <- PowerMatrixAll[!duplicated(PowerMatrixAll),]
+    PowerMatrixAll_List[[gsub("_1_mergedPvalue.csv",
+                              "",
+                              InputFiles[i])]] <- PowerMatrixAll
+  }
+  return(PowerMatrixAll_List)
+}
+
+
+
+powerplot <- function(InputPath, Method_Labels, Legend_title, Ncol, Nrow){
+  ggplot_matrix <- powermatrixall(InputPath)
+  Sub_Figs <- names(ggplot_matrix)
+  
+  ggplot_list <- list()
+  for(Sub_Fig in Sub_Figs){
+    PowerMatrixAll <- ggplot_matrix[[Sub_Fig]]
+    for(i in 1:nrow(Method_Labels)){
+      
+    }
+    PowerMatrixAll$Methods <- Method_Labels[match(PowerMatrixAll$Methods, Method_Labels[,1]),2]
+    PowerMatrixAll$Methods <- factor(PowerMatrixAll$Methods, levels = Method_Labels[,2])
+    
+    Col_plate <- c("#4DBBD5FF", "#E64B35FF", "#3C5488FF", "#00A087FF",  
                    "#8491B4FF", "#F39B7FFF", "#7E6148FF", "#DC0000FF")
     
-    ggplot_list[[i]] <- ggplot(PowerMatrixAll, aes(x=FDR, y=Power, group = Methods, color = Methods)) +
-      geom_line(size = 1.0) + 
-      scale_color_manual(values=Col_plate[1:length(unique(PowerMatrixAll[,"Methods"]))]) + 
+    ggplot_list[[Sub_Fig]] <- ggplot(PowerMatrixAll, aes(x=FDR, y=Power, group = Methods, color = Methods)) +
+      geom_line(linewidth = 1.0) + 
+      scale_color_manual(values=Col_plate[1:length(unique(PowerMatrixAll[,"Methods"]))], name = Legend_title) + 
       scale_y_continuous(breaks = seq(0, 1, 0.5), limits = c(0, 1)) +
       scale_x_continuous(breaks = seq(0, 0.1, 0.05), limits = c(0, 0.1))
-    ggtitle(InputFiles[i])
   }
-  #  p <- grid.arrange(grobs=plotlist,ncol=6)
-  #  ggsave("bigplot.png",p)
-  gggraph <- do.call(ggarrange, c(ggplot_list, ncol=3, common.legend = TRUE, legend = "bottom"))
+  
+  gggraph <- do.call(ggarrange, c(ggplot_list, ncol= Ncol, nrow= Nrow, common.legend = TRUE, legend = "bottom"))
   print(gggraph)
 }
 
-## Figure 2B ###################
-png(file=".\\Outputs\\Manuscript_2D_Simulation_Power.png",width = 8,height = 3,units = "in",
-    res = 600)
-powerplot(InputDataPath)
-dev.off()
+
+# main --------------------------------------------------------------------
+
+
+library(ggplot2)
+library(ggpubr)
+InputPath_All <- c("../Data/Adl_Sim/zaxis_res/")
+SubFolders <- list.files(InputPath_All)
+
+for(SubFolder in SubFolders){
+  InputPath <- paste0(InputPath_All, SubFolder, "/")
+  Method_Labels <- data.frame(Raw = c("sparkx_pvalue", "bsp_pvalue"),
+                              Labels = c("SPARK-X", "BSP"))
+  png(file=paste0("../Outputs/ZAxis_Res_", SubFolder ,".png"),
+      width=6, height=3, units = "in", res = 600)
+  powerplot(InputPath = InputPath, Method_Labels = Method_Labels, Legend_title = "Method", Ncol= 2, Nrow = 1)
+  dev.off()
+}
+
