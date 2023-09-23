@@ -29,6 +29,11 @@ If use beta distribution:
 python BSP.py --datasetName MOB --spaLocFilename Rep11_MOB_spa.csv --expFilename Rep11_MOB_count.csv --fitDist beta --adjustP
 ```
 
+User can also output top-quantile genes regardless the p-values using argument ```--empirical```, and manually define quantiles by ```--quantiles```. 
+```
+python BSP.py --datasetName MOB --spaLocFilename Rep11_MOB_spa.csv --expFilename Rep11_MOB_count.csv --empirical --quantiles 0.05
+```
+
 ## Example 2: 3D spatial transcriptomics from simulation
 ```
 python BSP.py --inputDir data/3Dsim/  --for3DTag --useDirTag 

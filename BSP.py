@@ -42,6 +42,10 @@ parser.add_argument('--logTransform', action='store_true', default=False,  help=
 parser.add_argument('--fitDist', type=str, default='lognormal',  help='Select fitting distribution lognormal/beta  (default: %(default)s)')
 parser.add_argument('--adjustP', action='store_true', default=False,  help='Whether adjust Pvalue: No for lognormal distribution, Yes for beta distribution')
 
+# Output top genes with user defined empirical quantiles
+parser.add_argument('--empirical', action='store_true', default=False,  help='Rank all the genes by test score, and output top genes by empirical quantiles')
+parser.add_argument('--quantiles', type=str, default='0.05',  help='Top percentage of genes ordered by test score (default: %(default)s)')
+
 # Adjust for low throughput tech, like starmap
 parser.add_argument('--noExtraNullGenes', action='store_true', default=False, help='Default: add extra 1000* null genes if the input genes are fewer than extraNullGeneNumberThres')
 parser.add_argument('--extraNullGeneNumberThres', type=int, default=50, help='if less than extra Null Gene Number, add null genes (default: %(default)s)')
@@ -345,6 +349,10 @@ if __name__ == "__main__":
                 outputData = pd.DataFrame(P_values, 
                                         columns = ["p_values"],
                                         index = geneIndex)
+            # Users can output the top percentage of genes regardless of the pvalues
+            if args.empirical:
+                rowcount=int(len(outputData)*float(args.quantiles))
+                outputData = outputData.nsmallest(rowcount, 'p_values')
             outputData.to_csv(outputFile)
             debuginfoStr('BSP Finished')        
         else:
@@ -395,6 +403,10 @@ if __name__ == "__main__":
                     outputData = pd.DataFrame(P_values, 
                                         columns = ["p_values"],
                                         index = geneIndex)
+                # Users can output the top percentage of genes regardless of the pvalues
+                if args.empirical:
+                    rowcount=int(len(outputData)*float(args.quantiles))
+                    outputData = outputData.nsmallest(rowcount, 'p_values')
                 outputData.to_csv(args.outputDir+filename.split('/')[-1].split('.csv')[0]+'_P_values.csv')
             debuginfoStr('BSP Finished')
 
@@ -476,6 +488,10 @@ if __name__ == "__main__":
                 outputData = pd.DataFrame(P_values, 
                                         columns = ["p_values"],
                                         index = geneIndex)
+            # Users can output the top percentage of genes regardless of the pvalues
+            if args.empirical:
+                rowcount=int(len(outputData)*float(args.quantiles))
+                outputData = outputData.nsmallest(rowcount, 'p_values')
             outputData.to_csv(outputFile)
             debuginfoStr('BSP Finished')
         else:
@@ -521,4 +537,8 @@ if __name__ == "__main__":
                     outputData = pd.DataFrame(P_values, 
                                             columns = ["p_values"],
                                             index = geneIndex)
+                # Users can output the top percentage of genes regardless of the pvalues
+                if args.empirical:
+                    rowcount=int(len(outputData)*float(args.quantiles))
+                    outputData = outputData.nsmallest(rowcount, 'p_values')
                 outputData.to_csv(args.outputDir+filename.split('/')[-1].split('.csv')[0]+'_P_values.csv')
