@@ -1,6 +1,6 @@
 # Big-Small Patch (BSP)
 
-[![DOI](https://zenodo.org/badge/10019316.svg)](https://zenodo.org/badge/latestdoi/10019316)
+[![DOI](https://zenodo.org/badge/603900314.svg)](https://zenodo.org/doi/10.5281/zenodo.10019315)
 
 Big-small patch is a granularity-guided, data-driven, and parameter-free model for identifying spatial variable genes in 2D and 3D high-throughput spatial transcriptomics data.
 
