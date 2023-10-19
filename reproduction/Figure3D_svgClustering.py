@@ -1,5 +1,6 @@
 ###############################################################################
 # Perform clustering the identified SVGs from the AKI kidney and 3dst RA 
+# Figure 3D, Supplementary 25
 ###############################################################################
 
 import numpy as np
@@ -22,6 +23,7 @@ df_svg = df[[c for c in df.columns if c in genelist]]
 df_svg = df_svg.T
 df_svg = df_svg.transform(lambda x: np.log(x+1))
 
+## Plot Figure 3D
 clusters = hierarchy.linkage(df_svg, method="ward")
 plt.figure(figsize=(20, 6))
 dendrogram = hierarchy.dendrogram(clusters, labels=df_svg.index, leaf_font_size=4)
@@ -113,6 +115,7 @@ df_svg = df[[c for c in df.columns if c in genelist]]
 df_svg = df_svg.T
 # df_svg = df_svg.transform(lambda x: np.log(x+1))
 
+## Supplementary 25
 clusters = hierarchy.linkage(df_svg, method="ward")
 plt.figure(figsize=(20, 6))
 dendrogram = hierarchy.dendrogram(clusters, labels=df_svg.index, leaf_font_size=1)

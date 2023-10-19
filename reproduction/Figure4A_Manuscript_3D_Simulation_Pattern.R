@@ -4,10 +4,9 @@
 
 library(plotly)
 library(scales)
-setwd("D:\\PhD\\Lab\\Project_3_SVG\\Figures\\")
 
 for(Pattern_index in 1:3){
-  Input_Folder <- ".\\Data\\Manuscript_3D_Simulation_Pattern\\Simulation_3D_Example\\"
+  Input_Folder <- ".\\..\\..\\Data\\Manuscript_3D_Simulation_Pattern\\Simulation_3D_Example\\"
   Input_File <- paste0("Pattern_",Pattern_index,".csv")
   Input_Data <- read.csv(paste0(Input_Folder, Input_File))
   
@@ -70,14 +69,14 @@ for(Pattern_index in 1:3){
   Center_pts <- as.data.frame(Center_pts)
   colnames(Center_pts) <- c("x", "y", "z")
   Center_pts <- Center_pts[which(apply(Center_pts, 1, max)<sqrt(N) & apply(Center_pts, 1, min)>0),]
-  my_palette <- c(rgb(0,1,0),
-                  rgb(245,245,220, maxColorValue = 255),
-                  rgb(1,0,1))
-  
+  my_palette <- c(rgb(230, 230, 250, maxColorValue = 255),
+                  rgb(255, 240, 245, maxColorValue = 255),
+                  rgb(255, 0, 0, maxColorValue = 255))
+
   Fig <- plot_ly() %>% 
     add_trace(data = Input_Data_Plot, 
               x = ~x, y = ~y, z = ~z, 
-              marker = list(size = 5),
+              marker = list(size = 3),
               mode = "markers", 
               type = "scatter3d", 
               opacity = 0.6,
@@ -88,7 +87,7 @@ for(Pattern_index in 1:3){
       x = ~x,
       y = ~y,
       z = ~z, 
-      marker = list(size = 5),
+      marker = list(size = 3),
       mode = "markers", 
       type = "scatter3d", 
       opacity = 1.0,
@@ -103,7 +102,7 @@ for(Pattern_index in 1:3){
       type="scatter3d", 
       opacity = 0.3,
       mode="lines",
-      line = list(color = rgb(1,0,1), width = 5),
+      line = list(color = rgb(1,0,0), width = 5),
       showlegend = FALSE)%>%
     layout(showlegend = FALSE,
            margin = list(
@@ -122,6 +121,6 @@ for(Pattern_index in 1:3){
   
   
   htmlwidgets::saveWidget(as_widget(Fig), 
-                          paste0(".\\Outputs\\Manuscript_3D_Pattern_",Pattern_index,".html"))
+                          paste0(".\\..\\..\\Outputs\\Manuscript\\Manuscript_3D_Pattern_",Pattern_index,".html"))
 }
 

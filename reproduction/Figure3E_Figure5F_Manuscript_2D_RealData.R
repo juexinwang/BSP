@@ -1,5 +1,5 @@
 #############################################################
-# Generate Figure 3, Supplementary Figure 4,6,7
+# Generate Figure 3, 3E, 5F, Supplementary Figure 4,6,7
 #############################################################
 
 library(ggplot2)
@@ -236,7 +236,6 @@ saveWorkbook(wb, paste0("..\\Data\\Human_Rheumatoid_Arthritis_GO_JL_",
 rm(list=ls())
 
 
-
 # RA 3d ---------------------------------------------------------
 InputData_RA3d <- read.table("..\\Data\\Manuscript_2D_RealData\\RA_3d_pvalues.txt", header = TRUE)
 
@@ -275,7 +274,7 @@ Upset_fig_all <- upset(GO_Results_table,
       ),
       intersect = paste0("RA", 1:6))
 
-
+## Figure 5F
 png(file="..\\Outputs\\Manuscript_2D_RealData_RA_All.png",width = 10,height = 6,units = "in",
     res = 600)
 print(Upset_fig_all)
@@ -330,7 +329,7 @@ CellType_Table <- rbind(CellType_Table[which(CellType_Table$n>=20),],
 CellType_Table$per <- as.numeric(CellType_Table$per)
 CellType_Table$label <- paste0(round(CellType_Table$per * 100), "%")
 
-
+## Figure 3E
 PieChart <- ggplot(CellType_Table, aes("", per, fill = Cell_Type)) +
   geom_bar(width = 1, size = 1, color = "white", stat = "identity") +
   coord_polar("y") +

@@ -1,5 +1,5 @@
 ################################################################
-# Generate Figure 3e, Supplementary Figure 25, and
+# Generate Figure 3D, Supplementary Figure 25, and
 # Corresponding Supplementary Figures 26-33
 ################################################################
 

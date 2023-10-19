@@ -1,5 +1,5 @@
 ################################################################################################
-# Generate Supplementary Figure 12, Supplementary Figure 13, Supplementary Figure 14
+# Generate Supplementary Figure 16, Supplementary Figure 17, Supplementary Figure 18
 ################################################################################################
 
 setwd("D:\\PhD\\Lab\\Project_3_SVG\\Figures\\")

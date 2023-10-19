@@ -1,5 +1,5 @@
 #############################################################
-# Generate Figure 3A, 3B, 3D, Supplementary Figure 4,6 
+# Generate Figure 3A, 3B, Supplementary Figure 4,6 
 #############################################################
 
 library(ggplot2)

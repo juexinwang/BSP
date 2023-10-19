@@ -1,6 +1,6 @@
 #############################################################
-# Power analysis for 3D vs 2D meta-analysis comparision
-# Figure 4C
+# Power analysis for inconsistent within-plane and inter-plane resolution
+# Figure 4F, Supplementary Figure 21
 #############################################################
 
 # function ----------------------------------------------------------------
@@ -74,7 +74,6 @@ powermatrixall <- function(InputPath){
   PowerMatrixAll_List <- list()
   for(i in 1:length(InputFiles)){
     InputData <- read.csv(paste0(InputPath, InputFiles[i]))
-    InputData <- InputData[,c(1, 12:17)]
     PowerMatrixAll <- powermatrix(InputData)
     colnames(PowerMatrixAll)[3] <- "Power1"
     for(j in 2:10){
@@ -82,7 +81,6 @@ powermatrixall <- function(InputPath){
                                    gsub("1_mergedPvalue",
                                         paste0(j, "_mergedPvalue"),
                                         InputFiles[i])))
-      InputData <- InputData[,c(1, 12:17)]
       PowerMatrix <- powermatrix(InputData)
       colnames(PowerMatrix)[3] <- paste0("Power",j)
       PowerMatrixAll <- merge(PowerMatrixAll, PowerMatrix, 
@@ -113,8 +111,8 @@ powerplot <- function(InputPath, Method_Labels, Legend_title, Ncol, Nrow){
     PowerMatrixAll$Methods <- Method_Labels[match(PowerMatrixAll$Methods, Method_Labels[,1]),2]
     PowerMatrixAll$Methods <- factor(PowerMatrixAll$Methods, levels = Method_Labels[,2])
     
-    Col_plate <- c("#4DBBD5FF", "#3C5488FF", "#00A087FF",  "#7E6148FF",
-                   "#8491B4FF", "#E64B35FF", "#F39B7FFF", "#DC0000FF")
+    Col_plate <- c("#4DBBD5FF", "#E64B35FF", "#3C5488FF", "#00A087FF",  
+                   "#8491B4FF", "#F39B7FFF", "#7E6148FF", "#DC0000FF")
     
     ggplot_list[[Sub_Fig]] <- ggplot(PowerMatrixAll, aes(x=FDR, y=Power, group = Methods, color = Methods)) +
       geom_line(linewidth = 1.0) + 
@@ -133,10 +131,16 @@ powerplot <- function(InputPath, Method_Labels, Legend_title, Ncol, Nrow){
 
 library(ggplot2)
 library(ggpubr)
-InputPath <- c("../Data/Adl_Sim/2D_vs_3D/")
-Method_Labels <- data.frame(Raw = c("fisher_pvalue", "pearson_pvalue", "tippett_pvalue", "stouffer_pvalue", "mudholkar_pvalue", "p_values"),
-                            Labels = c("Fisher", "Pearson", "Tippett", "Stouffer", "Mudholkar", "3D"))
-png(file=paste0("../Outputs/2D_vs_3D.png"),
-    width=9, height=3, units = "in", res = 600)
-powerplot(InputPath = InputPath, Method_Labels = Method_Labels, Legend_title = "Method", Ncol= 3, Nrow = 1)
-dev.off()
+InputPath_All <- c("../Data/Adl_Sim/zaxis_res/")
+SubFolders <- list.files(InputPath_All)
+
+for(SubFolder in SubFolders){
+  InputPath <- paste0(InputPath_All, SubFolder, "/")
+  Method_Labels <- data.frame(Raw = c("sparkx_pvalue", "bsp_pvalue"),
+                              Labels = c("SPARK-X", "BSP"))
+  png(file=paste0("../Outputs/ZAxis_Res_", SubFolder ,".png"),
+      width=6, height=3, units = "in", res = 600)
+  powerplot(InputPath = InputPath, Method_Labels = Method_Labels, Legend_title = "Method", Ncol= 2, Nrow = 1)
+  dev.off()
+}
+

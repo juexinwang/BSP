@@ -1,5 +1,5 @@
 #############################################################
-# Plot Figure 3F of the manuscript
+# Plot Figure 3G of the manuscript
 #############################################################
 
 import numpy as np
