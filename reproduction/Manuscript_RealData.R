@@ -1,5 +1,5 @@
 #############################################################
-# Generate Figure 3A, 3B, 3D 
+# Generate Figure 3A, 3B, 3D, Supplementary Figure 4,6 
 #############################################################
 
 library(ggplot2)
@@ -13,6 +13,7 @@ library(ReactomePA)
 library(ComplexHeatmap)
 library(ComplexUpset)
 library(ggvenn)
+library(viridis)
 #library(tidyverse)
 #library(CellChat)
 
@@ -61,7 +62,7 @@ rm(list=ls())
 Col_plate <- c("#E64B35FF", "#3C5488FF", "#4DBBD5FF", "#00A087FF",  
                "#8491B4FF", "#F39B7FFF", "#7E6148FF", "#DC0000FF")
 # InputData_MOB <- read.csv("..\\Data\\Manuscript_2D_RealData\\MOB_Pvalues.csv")
-InputData_MOB <- read.csv("/Users/wangjuex/Library/CloudStorage/OneDrive-IndianaUniversity/BSP/Jinpu_Figures/Data/Manuscript_2D_RealData/MOB_Pvalues.csv")
+InputData_MOB <- read.csv("/Users/wangjuex/Library/CloudStorage/OneDrive-IndianaUniversity/BSP/Figshare/Archive/Manuscript_2D_RealData/MOB_Pvalues.csv")
 # Methods <- colnames(InputData_MOB)[2:6]
 Methods<-c("BSP","nnSVG","SPARK","SpatialDE") # SPARKX is 0, so we ignore it
 for(Method in Methods){
@@ -86,32 +87,35 @@ barintersection <- function(InputData){
   return(OutputData)
 }
 
+## Figure 3A
 InputData_MOB_Inter <- barintersection(InputData_MOB[1:10,2:5])
 Upset_fig1 <- ggplot(data=InputData_MOB_Inter, aes(x=Methods, y=Benchmarks, fill = Methods)) +
   geom_bar(stat="identity", position=position_dodge()) + xlab(NULL)+ ylab("Number of Benchmarks") +
   scale_y_continuous(breaks= pretty_breaks()) + 
-  scale_fill_manual(values=c(Col_plate[1:4], terrain.colors(12)[1:11]))
-png(file="..\\Outputs\\Manuscript_2D_RealData_MOB.png",width = 10,height = 6,units = "in",
-    res = 600)
-# png(file="~/Downloads/Manuscript_2D_RealData_MOB.png",width = 10,height = 6,units = "in",
+  scale_fill_viridis_d()
+  # scale_fill_manual(values=c(Col_plate[1:4], terrain.colors(12)[1:11]))
+# png(file="..\\Outputs\\Manuscript_2D_RealData_MOB.png",width = 10,height = 6,units = "in",
 #     res = 600)
+png(file="~/Downloads/Manuscript_2D_RealData_MOB.png",width = 10,height = 6,units = "in",
+    res = 600)
 print(Upset_fig1)
 dev.off()
 
-
+## Supplementary Figure 4
 InputData_MOB_venn <- lapply(Methods, function(Method){
   InputData_MOB$Gene[which(InputData_MOB[1:10,Method]==1)]
 })
 names(InputData_MOB_venn) <- Methods
 Upset_fig1_2 <- ggvenn(
   InputData_MOB_venn, 
-  fill_color = Col_plate[1:4],
+  fill_color = viridis(4),
+  # fill_color = Col_plate[1:4],
   stroke_size = 0.5, set_name_size = 4
 )
-png(file="..\\Outputs\\Manuscript_2D_RealData_MOB_venn.png",width = 10,height = 6,units = "in",
-    res = 600)
-# png(file="~/Downloads/Manuscript_2D_RealData_MOB_venn.png",width = 10,height = 6,units = "in",
+# png(file="..\\Outputs\\Manuscript_2D_RealData_MOB_venn.png",width = 10,height = 6,units = "in",
 #     res = 600)
+png(file="~/Downloads/Manuscript_2D_RealData_MOB_venn.png",width = 10,height = 6,units = "in",
+    res = 600)
 print(Upset_fig1_2)
 dev.off()
 
@@ -126,7 +130,7 @@ rm(list=ls())
 Col_plate <- c("#E64B35FF", "#3C5488FF", "#4DBBD5FF", "#00A087FF",  
                "#8491B4FF", "#F39B7FFF", "#7E6148FF", "#DC0000FF")
 # InputData_HBC <- read.csv("..\\Data\\Manuscript_2D_RealData\\HBC_Pvalues.csv")
-InputData_HBC <- read.csv("/Users/wangjuex/Library/CloudStorage/OneDrive-IndianaUniversity/BSP/Jinpu_Figures/Data/Manuscript_2D_RealData/HBC_Pvalues_.csv")
+InputData_HBC <- read.csv("/Users/wangjuex/Library/CloudStorage/OneDrive-IndianaUniversity/BSP/Figshare/Archive/Manuscript_2D_RealData/HBC_Pvalues.csv")
 Methods <- colnames(InputData_HBC)[2:5]
 for(Method in Methods){
   InputData_HBC[,Method] <- as.numeric(InputData_HBC[,Method]<0.05)
@@ -150,11 +154,13 @@ barintersection <- function(InputData){
   return(OutputData)
 }
 
+## Figure 3B
 InputData_HBC_Inter <- barintersection(InputData_HBC[1:14,2:5])
 Upset_fig2 <- ggplot(data=InputData_HBC_Inter, aes(x=Methods, y=Benchmarks, fill = Methods)) +
   geom_bar(stat="identity", position=position_dodge()) + xlab(NULL) + ylab("Number of Benchmarks") +
   scale_y_continuous(breaks= pretty_breaks()) + 
-  scale_fill_manual(values=c(Col_plate[1:4], terrain.colors(12)[1:11]))
+  scale_fill_viridis_d()
+  # scale_fill_manual(values=c(Col_plate[1:4], terrain.colors(12)[1:11]))
 # png(file="..\\Outputs\\Manuscript_2D_RealData_HBC.png",width = 10,height = 6,units = "in",
 #     res = 600)
 png(file="~/Downloads/Manuscript_2D_RealData_HBC.png",width = 10,height = 6,units = "in",
@@ -162,14 +168,15 @@ png(file="~/Downloads/Manuscript_2D_RealData_HBC.png",width = 10,height = 6,unit
 print(Upset_fig2)
 dev.off()
 
-
+## Supplementary Figure 6
 InputData_HBC_venn <- lapply(Methods, function(Method){
   InputData_HBC$Gene[which(InputData_HBC[1:14,Method]==1)]
 })
 names(InputData_HBC_venn) <- Methods
 Upset_fig2_2 <- ggvenn(
   InputData_HBC_venn, 
-  fill_color = Col_plate[1:4],
+  # fill_color = Col_plate[1:4],
+  fill_color = viridis(4),
   stroke_size = 0.5, set_name_size = 4
 )
 # png(file="..\\Outputs\\Manuscript_2D_RealData_HBC_venn.png",width = 10,height = 6,units = "in",

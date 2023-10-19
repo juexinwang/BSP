@@ -13,6 +13,7 @@ library(ReactomePA)
 library(ComplexHeatmap)
 library(ComplexUpset)
 library(ggvenn)
+library(viridis)
 #library(tidyverse)
 #library(CellChat)
 
@@ -157,6 +158,7 @@ rm(list=ls())
 # RA ---------------------------------------------------------
 InputData_RA <- read.csv("..\\Data\\Manuscript_2D_RealData\\RA_SVGs.csv")
 
+## Figure 5A
 VennPlot <- ggvenn(list(`SVGs from 2D` = InputData_RA$Gene[which(InputData_RA$Source%in%c("Intersection", "2D"))],
                         `SVGs from 3D` = InputData_RA$Gene[which(InputData_RA$Source%in%c("Intersection", "3D"))]), 
                    c("SVGs from 2D", "SVGs from 3D"),
@@ -336,6 +338,7 @@ PieChart <- ggplot(CellType_Table, aes("", per, fill = Cell_Type)) +
             position = position_stack(vjust = 0.5)) +
   guides(fill = guide_legend(reverse = TRUE, title = "Cell Types")) +
   theme_classic() +
+  scale_fill_viridis_d()+
   theme(axis.line = element_blank(),
         axis.text = element_blank(),
         axis.ticks = element_blank(),
